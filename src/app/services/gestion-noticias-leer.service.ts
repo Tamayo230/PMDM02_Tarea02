@@ -11,7 +11,7 @@ export class GestionNoticiasLeerService {
   private noticiasLeer: Article [] = [];
 
   constructor(public gestionAlmacenamiento : GestionStorageService) {
-
+    this.cargarArticulosLocal();
   }
   // Añade una nueva noticia a leer
   addNoticia(item : Article) {
@@ -21,13 +21,17 @@ export class GestionNoticiasLeerService {
 
     // Añadirlo
     this.noticiasLeer.push(item);
+    this.gestionAlmacenamiento.setObject("Articulos", this.noticiasLeer);
 
-    //Anadimos al almacenamiento local
-   /* let datosPromesa : Promise <Article[]> = this.gestionAlmacenamiento.getObject("Articulos");
+  
+    // console.log(this.noticiasLeer);
+  }
+  private cargarArticulosLocal(){
+      //Anadimos al almacenamiento local
+    let datosPromesa : Promise <Article[]> = this.gestionAlmacenamiento.getObject("Articulos");
     datosPromesa.then(datos => {
       this.noticiasLeer.push(...datos);
-    }); */
-    // console.log(this.noticiasLeer);
+    }); 
   }
 
   // Comprueba si una noticia ya está en el array
@@ -47,7 +51,7 @@ export class GestionNoticiasLeerService {
     if (indice != -1) {
       this.noticiasLeer.splice(indice, 1);
       //Actulizamos el almacenamiento local
-     // this.gestionAlmacenamiento.setObject("Articulos", this.noticiasLeer);
+      this.gestionAlmacenamiento.setObject("Articulos", this.noticiasLeer);
       // console.log(this.noticiasLeer); 
     }
   }
