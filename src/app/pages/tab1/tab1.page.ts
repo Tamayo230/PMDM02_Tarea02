@@ -1,3 +1,4 @@
+import { GestionStorageService } from './../../services/gestion-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { GestionNoticiasLeerService } from './../../services/gestion-noticias-leer.service';
 import { RespuestaNoticias, Article } from './../../interfaces/interfaces';
@@ -15,8 +16,19 @@ export class Tab1Page implements OnInit {
   listaNoticias: Article[] = [];
   respuesta: Observable<RespuestaNoticias> = {} as Observable<RespuestaNoticias>;
 
-  constructor(private leerFichero: HttpClient, public gestionNoticiasLeer: GestionNoticiasLeerService) {
+  constructor(private leerFichero: HttpClient, public gestionNoticiasLeer: GestionNoticiasLeerService, public gestionAlmacen: GestionStorageService) {
+    
     this.cargarFichero(); 
+
+    // Añadimos al almacenamiento local
+   let datosPromesa : Promise <Article[]> = this.gestionAlmacen.getObject("Noticias");
+   datosPromesa.then(datos => {
+  this.listaNoticias.push(...datos);
+  });
+    
+     
+  
+   
   }
 
   // Cuando cambia el check, en función de su valor añade o borra la noticia
@@ -32,12 +44,16 @@ export class Tab1Page implements OnInit {
 
   // Lee el fichero con los artículos y los guarda en el array "listaNoticias"
   private cargarFichero() {
-
+   
+    let listaCargar: Article[] = [];
     let respuesta: Observable<RespuestaNoticias> = this.leerFichero.get<RespuestaNoticias>("/assets/datos/articulos.json");
 
     respuesta.subscribe( resp => {
       console.log("Noticias", resp);
-      this.listaNoticias.push(... resp.articles);
+      listaCargar.push(... resp.articles);
+
+      //Añadimos al almacenamiento local 
+      this.gestionAlmacen.setObject("Noticias", listaCargar);
     } );
   }
 
@@ -51,5 +67,6 @@ export class Tab1Page implements OnInit {
   }
 
   ngOnInit() { 
+   
   }
 }

@@ -1,5 +1,7 @@
+import { GestionStorageService } from './gestion-storage.service';
 import { Article } from './../interfaces/interfaces';
 import { Injectable } from '@angular/core';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +10,9 @@ export class GestionNoticiasLeerService {
 
   private noticiasLeer: Article [] = [];
 
-  constructor() {
+  constructor(public gestionAlmacenamiento : GestionStorageService) {
 
   }
-
   // Añade una nueva noticia a leer
   addNoticia(item : Article) {
     // copiar item
@@ -20,6 +21,12 @@ export class GestionNoticiasLeerService {
 
     // Añadirlo
     this.noticiasLeer.push(item);
+
+    //Anadimos al almacenamiento local
+   /* let datosPromesa : Promise <Article[]> = this.gestionAlmacenamiento.getObject("Articulos");
+    datosPromesa.then(datos => {
+      this.noticiasLeer.push(...datos);
+    }); */
     // console.log(this.noticiasLeer);
   }
 
@@ -39,6 +46,8 @@ export class GestionNoticiasLeerService {
     let indice = this.buscar(item);
     if (indice != -1) {
       this.noticiasLeer.splice(indice, 1);
+      //Actulizamos el almacenamiento local
+     // this.gestionAlmacenamiento.setObject("Articulos", this.noticiasLeer);
       // console.log(this.noticiasLeer); 
     }
   }
