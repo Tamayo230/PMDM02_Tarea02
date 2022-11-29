@@ -19,16 +19,18 @@ export class Tab1Page implements OnInit {
   constructor(private leerFichero: HttpClient, public gestionNoticiasLeer: GestionNoticiasLeerService, public gestionAlmacen: GestionStorageService) {
     
     this.cargarFichero(); 
+    
 
-    // Añadimos al almacenamiento local
+ 
+  }
+  private cargarFicheroLocal(){
+       // Añadimos datos del  almacenamiento local
    let datosPromesa : Promise <Article[]> = this.gestionAlmacen.getObject("Noticias");
    datosPromesa.then(datos => {
-  this.listaNoticias.push(...datos);
-  });
-    
-     
-  
-   
+   this.listaNoticias.push(...datos);
+ });
+
+
   }
 
   // Cuando cambia el check, en función de su valor añade o borra la noticia
@@ -46,7 +48,7 @@ export class Tab1Page implements OnInit {
   private cargarFichero() {
    
     let listaCargar: Article[] = [];
-    let respuesta: Observable<RespuestaNoticias> = this.leerFichero.get<RespuestaNoticias>("/assets/datos/articulos.json");
+    let respuesta: Observable<RespuestaNoticias> = this.leerFichero.get<RespuestaNoticias>(" https://newsapi.org/v2/everything?q=bitcoin&apiKey=9d1de9ce98954c24a98751fc8fbea520");
 
     respuesta.subscribe( resp => {
       console.log("Noticias", resp);
@@ -54,7 +56,19 @@ export class Tab1Page implements OnInit {
 
       //Añadimos al almacenamiento local 
       this.gestionAlmacen.setObject("Noticias", listaCargar);
+      this.cargarFicheroLocal();
     } );
+  }
+
+  private consultaGet(){
+    
+      // Declaramos el observable y lo inicializamos con una consulta GET
+      let observableRest: Observable<RespuestaNoticias> = this.leerFichero.get<RespuestaNoticias>(" https://newsapi.org/v2/everything?q=bitcoin&apiKey=9d1de9ce98954c24a98751fc8fbea520");
+      // Nos suscribimos al observable y cuando recibimos datos los mostramos por consola
+      observableRest.subscribe( datos => {
+        console.log(datos);
+      });    
+  
   }
 
   // Comprueba si una noticia está para leer o no
