@@ -21,11 +21,12 @@ export class GestionNoticiasLeerService {
 
     // Añadirlo
     this.noticiasLeer.push(item);
+    //Actualizamos el almacenamiento local
     this.gestionAlmacenamiento.setObject("Articulos", this.noticiasLeer);
 
-  
-    // console.log(this.noticiasLeer);
   }
+
+
   private cargarArticulosLocal(){
       //Anadimos al almacenamiento local
     let datosPromesa : Promise <Article[]> = this.gestionAlmacenamiento.getObject("Articulos");
@@ -52,7 +53,6 @@ export class GestionNoticiasLeerService {
       this.noticiasLeer.splice(indice, 1);
       //Actulizamos el almacenamiento local
       this.gestionAlmacenamiento.setObject("Articulos", this.noticiasLeer);
-      // console.log(this.noticiasLeer); 
     }
   }
 
