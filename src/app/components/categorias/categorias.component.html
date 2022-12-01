@@ -1,0 +1,23 @@
+
+<ion-segment [scrollable]="true" value="business"  (ionChange)="categoriaSel($event)">
+ 
+  <ion-segment-button value="general" checked = true>
+     <ion-label>General</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="business" >
+    <ion-label>Business</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="technology">
+    <ion-label>Technology</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="science">
+    <ion-label>Science</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="sport">
+    <ion-label>Sport</ion-label>
+  </ion-segment-button>
+</ion-segment>

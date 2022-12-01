@@ -1,3 +1,4 @@
+import { ServicioRestService } from './../../services/servicio-rest.service';
 import { GestionStorageService } from './../../services/gestion-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { GestionNoticiasLeerService } from './../../services/gestion-noticias-leer.service';
@@ -16,10 +17,8 @@ export class Tab1Page implements OnInit {
   listaNoticias: Article[] = [];
   respuesta: Observable<RespuestaNoticias> = {} as Observable<RespuestaNoticias>;
 
-  constructor(private servidorRest: HttpClient, public gestionNoticiasLeer: GestionNoticiasLeerService, public gestionAlmacen: GestionStorageService) {
-    //Llamamos a la consulta con el servicio HttpClient 
-    this.consultaGet(); 
-    
+  constructor(public servicioConsu: ServicioRestService, public gestionNoticiasLeer: GestionNoticiasLeerService, public gestionAlmacen: GestionStorageService) {
+     
   }
 
   // Cuando cambia el check, en función de su valor añade o borra la noticia
@@ -31,18 +30,6 @@ export class Tab1Page implements OnInit {
       this.gestionNoticiasLeer.borrarNoticia(item);
     }
     
-  }
-
-  
-  // Consulta los articulos de un Serviodr rest y los guarda en el array "listaNoticias"
-  private consultaGet() {
-    //Creamos el observable de la consulta y nos subcribimos
-    let respuesta: Observable<RespuestaNoticias> = this.servidorRest.get<RespuestaNoticias>(" https://newsapi.org/v2/everything?q=bitcoin&apiKey=9d1de9ce98954c24a98751fc8fbea520");
-
-      respuesta.subscribe( resp => {
-      console.log("Noticias", resp);
-      this.listaNoticias.push(... resp.articles);
-    } );
   }
 
 

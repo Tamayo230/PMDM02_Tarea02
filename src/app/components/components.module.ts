@@ -1,3 +1,4 @@
+import { CategoriasComponent } from './categorias/categorias.component';
 import { ExploreContainerComponent } from './explore-container/explore-container.component';
 import { IonicModule } from '@ionic/angular';
 import { NoticiaComponent } from './noticia/noticia.component';
@@ -9,7 +10,9 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     NoticiaComponent,
-    ExploreContainerComponent
+    ExploreContainerComponent,
+    CategoriasComponent
+ 
   ],
   imports: [
     CommonModule,
@@ -17,7 +20,8 @@ import { CommonModule } from '@angular/common';
   ],
   exports: [
     NoticiaComponent,
-    ExploreContainerComponent
+    ExploreContainerComponent,
+    CategoriasComponent
   ]
 })
 export class ComponentsModule { }
