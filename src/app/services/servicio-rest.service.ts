@@ -11,15 +11,14 @@ export class ServicioRestService {
   listaNoticias: Article[] = [];
 
   constructor(private servidorRest: HttpClient) { }
-  // Consulta los articulos de un Serviodr rest y los guarda en el array "listaNoticias"
-  public consultaGet(categoria :string) {
-    //generamos los string de las diferentes consultas
+ 
+    //Consulta los articulos de un Serviodr rest y los guarda en el array "listaNoticias"
+      public consultaGet(categoria :string) {
+    //Borramos los datos de la anterior consulta
       this.listaNoticias.splice(0, this.listaNoticias.length);
     //Creamos el observable de la consulta y nos subcribimos
-    let respuesta: Observable<RespuestaNoticias> = this.servidorRest.get<RespuestaNoticias>(categoria);
-
+      let respuesta: Observable<RespuestaNoticias> = this.servidorRest.get<RespuestaNoticias>(categoria);
       respuesta.subscribe( resp => {
-      console.log("Noticias", resp);
       this.listaNoticias.push(... resp.articles);
       
     } );

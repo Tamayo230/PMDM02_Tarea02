@@ -29,8 +29,8 @@ export class GestionNoticiasLeerService {
 
   private cargarArticulosLocal(){
       //Anadimos al almacenamiento local
-    let datosPromesa : Promise <Article[]> = this.gestionAlmacenamiento.getObject("Articulos");
-    datosPromesa.then(datos => {
+      let datosPromesa : Promise <Article[]> = this.gestionAlmacenamiento.getObject("Articulos");
+      datosPromesa.then(datos => {
       this.noticiasLeer.push(...datos);
     }); 
   }
